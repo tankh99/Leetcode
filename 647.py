@@ -6,25 +6,21 @@ class Solution:
         - Left move condition - not palindrome
 
         '''
-        palindromes = 0
-        for i in range(len(s)):
-            curr = ""
-            for j in range(i, len(s)):
-                curr += s[j]
-                if self.isPalindrome(curr):
-                    palindromes += 1
-
+        n, palindromes = len(s), 0
+        for i in range(n):
+            odd = self.palindromeCount(i, i, s)
+            even = self.palindromeCount(i, i+1, s)
+            palindromes += odd + even
         return palindromes
-
-    def isPalindrome(self, s):
-        mid = len(s) // 2
-        if len(s) % 2 != 0:
-            firstHalf = s[:mid]
-            reversedSecondHalf = s[mid+1:][::-1]
-        else:
-            firstHalf = s[:mid]
-            reversedSecondHalf = s[mid:][::-1]
-        return firstHalf == reversedSecondHalf
+    
+    def palindromeCount(self, left, right, s):
+        count = 0
+        n = len(s)
+        while left >= 0 and right < n and s[left] == s[right]:
+            left -= 1
+            right += 1
+            count += 1
+        return count
     
 sln = Solution()
 # ans = sln.countSubstrings("aaa") # 3
