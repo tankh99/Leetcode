@@ -11,21 +11,35 @@ class Node:
 from typing import Optional
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        if not node:
+        if node is None:
             return None
-        map = {}
-        q = deque()
-        q.append(node)
+        cloned_nodes = {}
+        def dfs(node):
+            if node in cloned_nodes:
+                return cloned_nodes[node]
+            clone = Node(node.val) 
+            cloned_nodes[node] = clone
+            
+            for nbr in node.neighbors:
+                clone.neighbors.append(dfs(nbr))
+                
+            return clone
+        return dfs(node)
+        # if not node:
+        #     return None
+        # map = {}
+        # q = deque()
+        # q.append(node)
         
-        newRoot = Node(node.val)
-        map[node.val] = newRoot
-        while q:
-            curr = q.popleft()
-            for nbr in curr.neighbors:
-                if nbr.val not in map:
-                    map[nbr.val] = Node(nbr.val)
-                    q.append(nbr)
-                map[curr.val].neighbors.append(map[nbr.val])
-        return newRoot
+        # newRoot = Node(node.val)
+        # map[node.val] = newRoot
+        # while q:
+        #     curr = q.popleft()
+        #     for nbr in curr.neighbors:
+        #         if nbr.val not in map:
+        #             map[nbr.val] = Node(nbr.val)
+        #             q.append(nbr)
+        #         map[curr.val].neighbors.append(map[nbr.val])
+        # return newRoot
 
         
