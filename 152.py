@@ -1,36 +1,27 @@
+import math
 from typing import List
 
 
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
-        maxProductSoFar = -float("inf")
-        # negatives = 0
-        # for num in nums:
-        #     if num < 0:
-        #         negatives += 1
-
-        # if negatives % 2 == 0:
-        #     product = 1
-        #     for num in nums:
-        #         product *= num
-        #     return product
-        # else:
         n = len(nums)
-
+        maxSoFar = nums[0]
+        pre = post = 1
         for i in range(n):
-            num1 = nums[i]
-            product = num1
-            maxProductSoFar = max(maxProductSoFar, num1)
-            for j in range(i+1, n):
-                num2 = nums[j]
-                product *= num2
-                maxProductSoFar = max(maxProductSoFar, product)
-
-        return maxProductSoFar
+            if pre == 0: pre = 1
+            if post == 0: post = 1
+            pre *= nums[i]
+            post *= nums[n-i-1]
+            maxSoFar = max(maxSoFar, max(pre, post))
+        
+        return maxSoFar
     
 sln = Solution()
 
-# ans = sln.maxProduct([50,-3,5,-4,3,-5])
-# ans = sln.maxProduct([0,0,0])
-ans = sln.maxProduct([0,2])
+# ans = sln.maxProduct([2,-5,-2,-4,3])
+ans = sln.maxProduct([50,-3,5,-4,3,-5])
+# ans = sln.maxProduct([-4,-3])
+# ans = sln.maxProduct([2,3,-2,4])
+# ans = sln.maxProduct([50,-3,5,3])
+# ans = sln.maxProduct([0,2])
 print(ans)
