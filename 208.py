@@ -5,10 +5,7 @@ class TrieNode:
     
     def __init__(self):
         self.wordEnd = False
-        self.childNode: List[TrieNode] = []
-
-        for i in range(26):
-            self.childNode.append(None)
+        self.childNode = {}
       
 def getCharDiff(a, b):
     return ord(a) - ord(b)
@@ -21,30 +18,33 @@ class Trie:
     def insert(self, word: str) -> None:
         currNode = self.head
         for c in word:
-            charIndex = getCharDiff(c, 'a')
-            if currNode.childNode[charIndex] is None:
-                currNode.childNode[charIndex] = TrieNode()
-            currNode = currNode.childNode[charIndex]
+            # charIndex = getCharDiff(c, 'a')
+            # if currNode.childNode[charIndex] is None:
+            if c not in currNode.childNode:
+                currNode.childNode[c] = TrieNode()
+            currNode = currNode.childNode[c]
 
         currNode.wordEnd = True
 
     def search(self, word: str) -> bool:
         currNode = self.head
         for c in word:
-            charIndex = getCharDiff(c, 'a')
-            if currNode.childNode[charIndex] is None:
+            # charIndex = getCharDiff(c, 'a')
+            # if currNode.childNode[charIndex] is None:
+            if c not in currNode.childNode:
                 return False
-            currNode = currNode.childNode[charIndex]
+            currNode = currNode.childNode[c]
 
         return currNode.wordEnd
 
     def startsWith(self, prefix: str) -> bool:
         currNode = self.head
         for c in prefix:
-            charIndex = getCharDiff(c, 'a')
-            if currNode.childNode[charIndex] is None:
+            # charIndex = getCharDiff(c, 'a')
+            # if currNode.childNode[charIndex] is None:
+            if c not in currNode.childNode:
                 return False
-            currNode = currNode.childNode[charIndex]
+            currNode = currNode.childNode[c]
         return True
 
 
