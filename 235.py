@@ -4,8 +4,7 @@ class Solution:
         if root is None:
             return None
         lca = root
-        l, r = root, root
-        while l.val != p.val or r.val != q.val:
+        while True:
             '''
             1. p < lca and q > lca (or vice versa), then return root directly
             2. p < lca and q < lca, then shift lca to left
