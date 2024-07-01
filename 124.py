@@ -8,15 +8,19 @@ class TreeNode:
         self.left = left
         self.right = right
 
+import math
+
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        if root is None:
-            return 0
+        self.maxSoFar = -math.inf
         def dp(node):
             if node is None:
-                return 0
-            
-            sum = node.val + max(dp(node.left), dp(node.right))
-            return sum
-            
-        return dp(root)
+                return -math.inf
+            leftSum = dp(node.left)
+            rightSum = dp(node.right)
+            partOfPathSum = node.val + max(leftSum, rightSum)
+            closedSum = node.val + leftSum + rightSum
+            self.maxSoFar = max(self.maxSoFar, leftSum, rightSum, node.val, partOfPathSum, closedSum)
+            return max(partOfPathSum, node.val)
+        dp(root)
+        return self.maxSoFar
