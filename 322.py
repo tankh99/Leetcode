@@ -6,22 +6,35 @@ INF = 10000000
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        memo = defaultdict(lambda:-2)
         
-        def helper(amount):
-            if amount == 0: return 0
-            if amount < 0: return -1
-            if memo[amount] != -2: return memo[amount]
-            
-            minCoins = INF
-            for coin in coins:
-                res = helper(amount - coin)
-                if res >= 0: minCoins = min(minCoins, res + 1)
+        #Tabulation
+        dp = [float("inf")] * (amount + 1)
+        dp[0] = 0
+        
+        for coin in coins:
+            for x in range(coin, amount + 1):
+                dp[x] = min(dp[x], dp[x-coin] + 1)
                 
-            memo[amount] = minCoins if minCoins != INF else -1
-            return memo[amount]
+        return dp[amount] if dp[amount] != float("inf") else -1
+        
+        # Memoization
+        # memo = defaultdict(lambda:-2)
+        # def helper(amount):
+        #     if amount == 0: return 0
+        #     if amount < 0: return -1
+        #     if memo[amount] != -2: return memo[amount]
             
-        return helper(amount)
+        #     minCoins = INF
+        #     for coin in coins:
+        #         res = helper(amount - coin)
+        #         if res >= 0: minCoins = min(minCoins, res + 1)
+                
+        #     memo[amount] = minCoins if minCoins != INF else -1
+        #     return memo[amount]
+            
+        # return helper(amount)
+        
+        # Recursion
         # def helper(current, steps):
         #     nonlocal best
             
