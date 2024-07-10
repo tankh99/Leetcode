@@ -6,33 +6,42 @@ INF = 10000000
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        coins = sorted(coins)
-        n = len(coins)
+        memo = defaultdict(lambda:-2)
         
-        memo = defaultdict(int)
-        
-        best = INF
-        
-        def helper(current, steps):
-            nonlocal best
+        def helper(amount):
+            if amount == 0: return 0
+            if amount < 0: return -1
+            if memo[amount] != -2: return memo[amount]
             
-            if current > amount:
-                return INF
+            minCoins = INF
+            for coin in coins:
+                res = helper(amount - coin)
+                if res >= 0: minCoins = min(minCoins, res + 1)
+                
+            memo[amount] = minCoins if minCoins != INF else -1
+            return memo[amount]
+            
+        return helper(amount)
+        # def helper(current, steps):
+        #     nonlocal best
+            
+        #     if current > amount:
+        #         return INF
 
-            if current == amount:
-                best = min(best, steps)
+        #     if current == amount:
+        #         best = min(best, steps)
                 
-                memo[current] = steps
-                return best
+        #         memo[current] = steps
+        #         return best
                 
-            for coin in coins:    
-                if coin != 0:
-                    memo[current] = min(helper(current + coin, steps + 1), memo[current])
+        #     for coin in coins:    
+        #         if coin != 0:
+        #             memo[current] = min(helper(current + coin, steps + 1), memo[current])
                     
-            return memo[current]
+        #     return memo[current]
             
-        helper(0, 0)
-        return best if best != INF else -1
+        # helper(0, 0)
+        # return best if best != INF else -1
         
             
 sln = Solution()
