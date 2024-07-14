@@ -9,6 +9,7 @@ class Solution:
 
         for coin in coins:
             # Update the DP array from the value of the coin to the target amount
+            
             for x in range(coin, amount + 1):
                 dp[x] += dp[x - coin]
         
@@ -19,7 +20,6 @@ class Solution:
         #             dp[i] += dp[i - coin]
 
         ans = dp[amount]
-        print(dp)
         return ans
 sln = Solution()
 sln.change(13, [3,7])
