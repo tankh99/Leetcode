@@ -1,28 +1,24 @@
 from sys import stdin, stdout
 
-map = {}
+seq = {}
 
 def build_str(k):
     if k == 0:
-        return "A"
+        # return "A"
+        return 1, 0
     if k == 1:
-        return "B"
-    elif k in map:
-        return map[k]
-    val = build_str(k-1) + build_str(k-2)
-    map[k] = val
-    return map[k]
+        # return "B"
+        return 0, 1
+    elif k in seq:
+        return seq[k]
+    val = tuple(map(sum, zip(build_str(k-1), build_str(k-2))))
+    # print(val)
+    seq[k] = val
+    return seq[k]
 
 def rijeci(k):
-    string = "A"
-    string = build_str(k)
-    a_count, b_count = 0, 0
-    for c in string:
-        if c == "A":
-            a_count += 1
-        elif c == "B":
-            b_count += 1
-    return a_count, b_count
+    a, b = build_str(k)
+    return a, b
 
 k = int(stdin.readline().strip())
 
