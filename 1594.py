@@ -72,16 +72,16 @@ class Solution:
             r2,c2 = point2
             return abs(r2-r1) + abs(c2-c1)
         
-        al = []
+        # al = []
         
-        for i in range(n):
-            point1 = points[i]
-            sub_al = []
-            for j in range(n):
-                point2 = points[j]
-                if i == j: continue
-                sub_al.append((abs(manhattan_dist(point1, point2)), i, j))
-            al.append(sub_al)
+        # for i in range(n):
+        #     point1 = points[i]
+        #     sub_al = []
+        #     for j in range(n):
+        #         point2 = points[j]
+        #         if i == j: continue
+        #         sub_al.append((abs(manhattan_dist(point1, point2)), i, j))
+        #     al.append(sub_al)
         
         pq = []
         heappush(pq, (0, 0, 0))
@@ -93,15 +93,22 @@ class Solution:
             if seen[b]:
                 continue
             seen[b] = True
-        
+            # print(weight,a,b)
             mst_sum += weight
-            for neighbour in al[b]:
-                if not seen[neighbour[2]]:
-                    heappush(pq, neighbour)
+            for j in range(n):
+                neighbour = points[j]
+                if j == b: continue
+                if not seen[j]:
+                    point1 = points[b]
+                    # ] = neighbour
+                    # print(point1, neighbour)
+
+                    heappush(pq, (abs(manhattan_dist(point1, neighbour)), b,j))
         return mst_sum
 sln = Solution()
-# sln.minCostConnectPoints([[3,12],[-2,5],[-4,1]])
-ans = sln.minCostConnectPoints([[0,0],[1,1],[1,0],[-1,1]])
+# ans = sln.minCostConnectPoints([[3,12],[-2,5],[-4,1]])
+# ans = sln.minCostConnectPoints([[0,0],[1,1],[1,0],[-1,1]])
+ans = sln.minCostConnectPoints([[0,0],[2,2],[3,10],[5,2],[7,0]])
 print(ans)
 
 # sln.minCostConnectPoints([[0,0],[2,2],[3,10],[5,2],[7,0]])
